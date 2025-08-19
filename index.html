@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-en="ClassifiedHub - Multi-Country Marketplace" data-ar="كلاسيفايد هب - منصة متعددة البلدان">ClassifiedHub - Multi-Country Marketplace</title>
+    <meta name="description" content="Your trusted marketplace for buying and selling across the Middle East">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Amiri:wght@400;700&display=swap" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body class="min-h-screen bg-gray-50">
+    <!-- Header -->
+    <header class="border-b bg-white shadow-sm sticky top-0 z-50">
+        <div class="container mx-auto px-4 py-4">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center space-x-4">
+                    <div class="text-2xl font-bold text-blue-600">ClassifiedHub</div>
+                    <span class="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded-full" 
+                          data-en="Multi-Country Platform" 
+                          data-ar="منصة متعددة البلدان">Multi-Country Platform</span>
+                </div>
+                
+                <!-- Navigation Menu -->
+                <nav class="hidden md:flex items-center space-x-6">
+                    <a href="#" onclick="showPage('home')" class="text-gray-700 hover:text-blue-600" 
+                       data-en="Home" data-ar="الرئيسية">Home</a>
+                    <a href="#" onclick="showPage('listings')" class="text-gray-700 hover:text-blue-600" 
+                       data-en="Browse" data-ar="تصفح">Browse</a>
+                    <a href="#" onclick="filterByCategory('real-estate')" class="text-gray-700 hover:text-blue-600" 
+                       data-en="Real Estate" data-ar="العقارات">Real Estate</a>
+                    <a href="#" onclick="filterByCategory('vehicles')" class="text-gray-700 hover:text-blue-600" 
+                       data-en="Vehicles" data-ar="المركبات">Vehicles</a>
+                    <a href="#" onclick="filterByCategory('electronics')" class="text-gray-700 hover:text-blue-600" 
+                       data-en="Electronics" data-ar="الإلكترونيات">Electronics</a>
+                </nav>
+                
+                <div class="flex items-center space-x-4">
+                    <button onclick="toggleLanguage()" class="border border-gray-300 text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-50">
+                        <span id="current-lang">EN</span>
+                    </button>
+                    
+                    <!-- Auth buttons (shown when not logged in) -->
+                    <div id="auth-buttons" class="flex items-center space-x-2">
+                        <button onclick="showPage('login')" class="border border-gray-300 text-gray-700 px-3 py-1 rounded text-sm hover:bg-gray-50"
+                                data-en="Sign In" data-ar="تسجيل الدخول">Sign In</button>
+                        <button onclick="showPage('register')" class="bg-blue-600 text-white px-3 py-1 rounded text-sm hover:bg-blue-700"
+                                data-en="Register" data-ar="التسجيل">Register</button>
+                    </div>
+                    
+                    <!-- User menu (shown when logged in) -->
+                    <div id="user-menu" class="relative" style="display: none;">
+                        <button onclick="toggleUserDropdown()" class="flex items-center space-x-2 text-gray-700 hover:text-blue-600">
+                            <i class="fas fa-user-circle text-xl"></i>
+                            <span id="user-name">User</span>
+                            <i class="fas fa-chevron-down text-xs"></i>
+                        </button>
+                        <div id="user-dropdown" class="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg border hidden">
+                            <a href="#" onclick="showPage('dashboard')" class="block px-4 py-2 text-gray-700 hover:bg-gray-50"
+                               data-en="Dashboard" data-ar="لوحة التحكم">Dashboard</a>
+                            <a href="#" onclick="showPage('add-listing')" class="block px-4 py-2 text-gray-700 hover:bg-gray-50"
+                               data-en="Add Listing" data-ar="إضافة إعلان">Add Listing</a>
+                            <div class="border-t"></div>
+                            <a href="#" onclick="logout()" class="block px-4 py-2 text-red-600 hover:bg-gray-50"
+                               data-en="Logout" data-ar="تسجيل الخروج">Logout</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Home Page -->
+    <div id="home-page" class="page active">
+        <!-- Hero Section -->
+        <section class="bg-gradient-to-r from-blue-50 to-indigo-50 py-16">
+            <div class="container mx-auto px-4 text-center">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4" 
+                    data-en="Find Everything You Need Across Multiple Countries" 
+                    data-ar="اعثر على كل ما تحتاجه عبر بلدان متعددة">Find Everything You Need Across Multiple Countries</h1>
+                <p class="text-xl text-gray-600 mb-8 max-w-2xl mx-auto"
+                   data-en="Your trusted marketplace for buying and selling across the Middle East. Connect with verified sellers and find the best deals."
+                   data-ar="السوق الموثوق للشراء والبيع عبر الشرق الأوسط. تواصل مع البائعين المعتمدين واعثر على أفضل الصفقات.">
+                    Your trusted marketplace for buying and selling across the Middle East. Connect with verified sellers and find the best deals.
+                </p>
+
+                <!-- Search Bar -->
+                <div class="max-w-2xl mx-auto bg-white rounded-lg shadow-lg p-2 flex">
+                    <div class="flex-1 flex items-center px-4">
+                        <i class="fas fa-search text-gray-400 mr-3"></i>
+                        <input type="text" id="search-input" 
+                               data-en-placeholder="What are you looking for?" 
+                               data-ar-placeholder="ما الذي تبحث عنه؟"
+                               placeholder="What are you looking for?"
+                               class="w-full outline-none text-gray-700" />
+                    </div>
+                    <select id="category-select" class="border-l border-gray-200 px-4 py-2 text-gray-700 outline-none">
+                        <option value="" data-en="All Categories" data-ar="جميع الفئات">All Categories</option>
+                        <option value="real-estate" data-en="Real Estate" data-ar="العقارات">Real Estate</option>
+                        <option value="vehicles" data-en="Vehicles" data-ar="المركبات">Vehicles</option>
+                        <option value="electronics" data-en="Electronics" data-ar="الإلكترونيات">Electronics</option>
+                        <option value="furniture" data-en="Furniture" data-ar="الأثاث">Furniture</option>
+                    </select>
+                    <button onclick="performSearch()" class="bg-blue-600 text-white px-8 py-2 rounded hover:bg-blue-700"
+                            data-en="Search" data-ar="بحث">Search</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Country Selection -->
+        <section class="py-12">
+            <div class="container mx-auto px-4">
+                <h2 class="text-3xl font-bold text-center mb-8" 
+                    data-en="Choose Your Country" 
+                    data-ar="اختر بلدك">Choose Your Country</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="country-card card p-6 text-center active" onclick="selectCountry('uae')">
+                        <div class="text-4xl mb-4">🇦🇪</div>
+                        <h3 class="text-xl font-semibold mb-2" data-en="United Arab Emirates" data-ar="الإمارات العربية المتحدة">United Arab Emirates</h3>
+                        <p class="text-green-600 font-medium" data-en="Available Now" data-ar="متاح الآن">Available Now</p>
+                        <div class="mt-4 text-sm text-gray-600">
+                            <div data-en="10,000+ Listings" data-ar="أكثر من 10,000 إعلان">10,000+ Listings</div>
+                        </div>
+                    </div>
+                    
+                    <div class="country-card card p-6 text-center inactive" onclick="selectCountry('saudi')">
+                        <div class="text-4xl mb-4">🇸🇦</div>
+                        <h3 class="text-xl font-semibold mb-2" data-en="Saudi Arabia" data-ar="المملكة العربية السعودية">Saudi Arabia</h3>
+                        <p class="text-orange-600 font-medium" data-en="Coming Soon" data-ar="قريباً">Coming Soon</p>
+                        <div class="mt-4 text-sm text-gray-600">
+                            <div data-en="Launching Q2 2024" data-ar="الإطلاق في الربع الثاني 2024">Launching Q2 2024</div>
+                        </div>
+                    </div>
+                    
+                    <div class="country-card card p-6 text-center inactive" onclick="selectCountry('qatar')">
+                        <div class="text-4xl mb-4">🇶🇦</div>
+                        <h3 class="text-xl font-semibold mb-2" data-en="Qatar" data-ar="قطر">Qatar</h3>
+                        <p class="text-orange-600 font-medium" data-en="Coming Soon" data-ar="قريباً">Coming Soon</p>
+                        <div class="mt-4 text-sm text-gray-600">
+                            <div data-en="Launching Q3 2024" data-ar="الإطلاق في الربع الثالث 2024">Launching Q3 2024</div>
+                        </div>
+                    </div>
+                    
+                    <div class="country-card card p-6 text-center inactive" onclick="selectCountry('kuwait')">
+                        <div class="text-4xl mb-4">🇰🇼</div>
+                        <h3 class="text-xl font-semibold mb-2" data-en="Kuwait" data-ar="الكويت">Kuwait</h3>
+                        <p class="text-orange-600 font-medium" data-en="Coming Soon" data-ar="قريباً">Coming Soon</p>
+                        <div class="mt-4 text-sm text-gray-600">
+                            <div data-en="Launching Q4 2024" data-ar="الإطلاق في الربع الرابع 2024">Launching Q4 2024</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Categories -->
+        <section class="py-12 bg-gray-50">
+            <div class="container mx-auto px-4">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-3xl font-bold" data-en="Popular Categories" data-ar="الفئات الشائعة">Popular Categories</h2>
+                    <button onclick="showPage('listings')" class="border border-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-50"
+                            data-en="View All Categories" data-ar="عرض جميع الفئات">View All Categories</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                    <div class="card p-6 text-center cursor-pointer hover:shadow-lg" onclick="filterByCategory('real-estate')">
+                        <div class="category-icon text-blue-600">
+                            <i class="fas fa-home"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2" data-en="Real Estate" data-ar="العقارات">Real Estate</h3>
+                        <p class="text-gray-600" data-en="Houses, Apartments, Commercial" data-ar="منازل، شقق، تجاري">Houses, Apartments, Commercial</p>
+                        <div class="mt-4 text-sm text-blue-600 font-medium">2,500+ listings</div>
+                    </div>
+                    
+                    <div class="card p-6 text-center cursor-pointer hover:shadow-lg" onclick="filterByCategory('vehicles')">
+                        <div class="category-icon text-green-600">
+                            <i class="fas fa-car"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2" data-en="Vehicles" data-ar="المركبات">Vehicles</h3>
+                        <p class="text-gray-600" data-en="Cars, Motorcycles, Boats" data-ar="سيارات، دراجات نارية، قوارب">Cars, Motorcycles, Boats</p>
+                        <div class="mt-4 text-sm text-green-600 font-medium">1,800+ listings</div>
+                    </div>
+                    
+                    <div class="card p-6 text-center cursor-pointer hover:shadow-lg" onclick="filterByCategory('electronics')">
+                        <div class="category-icon text-purple-600">
+                            <i class="fas fa-laptop"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2" data-en="Electronics" data-ar="الإلكترونيات">Electronics</h3>
+                        <p class="text-gray-600" data-en="Phones, Computers, Gaming" data-ar="هواتف، حاسوب، ألعاب">Phones, Computers, Gaming</p>
+                        <div class="mt-4 text-sm text-purple-600 font-medium">3,200+ listings</div>
+                    </div>
+                    
+                    <div class="card p-6 text-center cursor-pointer hover:shadow-lg" onclick="filterByCategory('furniture')">
+                        <div class="category-icon text-orange-600">
+                            <i class="fas fa-couch"></i>
+                        </div>
+                        <h3 class="text-xl font-semibold mb-2" data-en="Furniture" data-ar="الأثاث">Furniture</h3>
+                        <p class="text-gray-600" data-en="Home, Office, Garden" data-ar="منزل، مكتب، حديقة">Home, Office, Garden</p>
+                        <div class="mt-4 text-sm text-orange-600 font-medium">1,200+ listings</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Featured Ads -->
+        <section class="py-12">
+            <div class="container mx-auto px-4">
+                <div class="flex items-center justify-between mb-8">
+                    <h2 class="text-3xl font-bold" data-en="Featured Listings" data-ar="الإعلانات المميزة">Featured Listings</h2>
+                    <button onclick="showPage('listings')" class="border border-gray-300 text-gray-700 px-4 py-2 rounded hover:bg-gray-50"
+                            data-en="View All" data-ar="عرض الكل">View All</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="featured-listings-grid">
+                    <!-- Featured listings will be populated by JavaScript -->
+                </div>
+            </div>
+        </section>
+
+        <!-- Stats Section -->
+        <section class="py-12 bg-blue-600 text-white">
+            <div class="container mx-auto px-4">
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-8 text-center">
+                    <div>
+                        <div class="text-4xl font-bold mb-2">10,000+</div>
+                        <div class="text-blue-100" data-en="Active Listings" data-ar="إعلانات نشطة">Active Listings</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold mb-2">5,000+</div>
+                        <div class="text-blue-100" data-en="Happy Customers" data-ar="عملاء سعداء">Happy Customers</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold mb-2">4</div>
+                        <div class="text-blue-100" data-en="Countries Served" data-ar="البلدان المخدومة">Countries Served</div>
+                    </div>
+                    <div>
+                        <div class="text-4xl font-bold mb-2">99%</div>
+                        <div class="text-blue-100" data-en="Customer Satisfaction" data-ar="رضا العملاء">Customer Satisfaction</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <!-- Login Page -->
+    <div id="login-page" class="page">
+        <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-md w-full space-y-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-gray-900" data-en="Sign in to your account" data-ar="تسجيل الدخول إلى حسابك">Sign in to your account</h2>
+                    <p class="mt-2 text-gray-600" data-en="Welcome back! Please enter your details." data-ar="مرحباً بعودتك! يرجى إدخال بياناتك.">Welcome back! Please enter your details.</p>
+                </div>
+                <form class="mt-8 space-y-6" onsubmit="handleLogin(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="login-email" class="block text-sm font-medium text-gray-700" data-en="Email address" data-ar="عنوان البريد الإلكتروني">Email address</label>
+                            <input id="login-email" name="email" type="email" required 
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                   data-en-placeholder="Enter your email" data-ar-placeholder="أدخل بريدك الإلكتروني"
+                                   placeholder="Enter your email">
+                        </div>
+                        <div>
+                            <label for="login-password" class="block text-sm font-medium text-gray-700" data-en="Password" data-ar="كلمة المرور">Password</label>
+                            <div class="mt-1 relative">
+                                <input id="login-password" name="password" type="password" required 
+                                       class="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                       data-en-placeholder="Enter your password" data-ar-placeholder="أدخل كلمة المرور"
+                                       placeholder="Enter your password">
+                                <button type="button" onclick="togglePassword('login-password')" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <i class="fas fa-eye text-gray-400"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <input id="remember-me" name="remember-me" type="checkbox" class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                            <label for="remember-me" class="ml-2 block text-sm text-gray-700" data-en="Remember me" data-ar="تذكرني">Remember me</label>
+                        </div>
+                        <div class="text-sm">
+                            <a href="#" class="font-medium text-blue-600 hover:text-blue-500" data-en="Forgot your password?" data-ar="نسيت كلمة المرور؟">Forgot your password?</a>
+                        </div>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                data-en="Sign in" data-ar="تسجيل الدخول">Sign in</button>
+                    </div>
+
+                    <div class="text-center">
+                        <span class="text-gray-600" data-en="Don't have an account?" data-ar="ليس لديك حساب؟">Don't have an account?</span>
+                        <button type="button" onclick="showPage('register')" class="font-medium text-blue-600 hover:text-blue-500 ml-1"
+                                data-en="Sign up" data-ar="إنشاء حساب">Sign up</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Register Page -->
+    <div id="register-page" class="page">
+        <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+            <div class="max-w-md w-full space-y-8">
+                <div class="text-center">
+                    <h2 class="text-3xl font-bold text-gray-900" data-en="Create your account" data-ar="إنشاء حسابك">Create your account</h2>
+                    <p class="mt-2 text-gray-600" data-en="Join thousands of users on our platform" data-ar="انضم إلى آلاف المستخدمين على منصتنا">Join thousands of users on our platform</p>
+                </div>
+                <form class="mt-8 space-y-6" onsubmit="handleRegister(event)">
+                    <div class="space-y-4">
+                        <div>
+                            <label for="register-name" class="block text-sm font-medium text-gray-700" data-en="Full Name" data-ar="الاسم الكامل">Full Name</label>
+                            <input id="register-name" name="name" type="text" required 
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                   data-en-placeholder="Enter your full name" data-ar-placeholder="أدخل اسمك الكامل"
+                                   placeholder="Enter your full name">
+                        </div>
+                        <div>
+                            <label for="register-email" class="block text-sm font-medium text-gray-700" data-en="Email address" data-ar="عنوان البريد الإلكتروني">Email address</label>
+                            <input id="register-email" name="email" type="email" required 
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                   data-en-placeholder="Enter your email" data-ar-placeholder="أدخل بريدك الإلكتروني"
+                                   placeholder="Enter your email">
+                        </div>
+                        <div>
+                            <label for="register-phone" class="block text-sm font-medium text-gray-700" data-en="Phone Number" data-ar="رقم الهاتف">Phone Number</label>
+                            <input id="register-phone" name="phone" type="tel" required 
+                                   class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                   data-en-placeholder="Enter your phone number" data-ar-placeholder="أدخل رقم هاتفك"
+                                   placeholder="Enter your phone number">
+                        </div>
+                        <div>
+                            <label for="register-role" class="block text-sm font-medium text-gray-700" data-en="I want to" data-ar="أريد أن">I want to</label>
+                            <select id="register-role" name="role" required class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500">
+                                <option value="buyer" data-en="Buy items" data-ar="شراء العناصر">Buy items</option>
+                                <option value="seller" data-en="Sell items" data-ar="بيع العناصر">Sell items</option>
+                                <option value="both" data-en="Both buy and sell" data-ar="الشراء والبيع معاً">Both buy and sell</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="register-password" class="block text-sm font-medium text-gray-700" data-en="Password" data-ar="كلمة المرور">Password</label>
+                            <div class="mt-1 relative">
+                                <input id="register-password" name="password" type="password" required 
+                                       class="block w-full px-3 py-2 pr-10 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
+                                       data-en-placeholder="Create a password" data-ar-placeholder="إنشاء كلمة مرور"
+                                       placeholder="Create a password">
+                                <button type="button" onclick="togglePassword('register-password')" class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <i class="fas fa-eye text-gray-400"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="flex items-center">
+                        <input id="terms" name="terms" type="checkbox" required class="h-4 w-4 text-blue-600 focus:ring-blue-500 border-gray-300 rounded">
+                        <label for="terms" class="ml-2 block text-sm text-gray-700">
+                            <span data-en="I agree to the" data-ar="أوافق على">I agree to the</span>
+                            <a href="#" class="text-blue-600 hover:text-blue-500" data-en="Terms and Conditions" data-ar="الشروط والأحكام">Terms and Conditions</a>
+                        </label>
+                    </div>
+
+                    <div>
+                        <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                                data-en="Create account" data-ar="إنشاء حساب">Create account</button>
+                    </div>
+
+                    <div class="text-center">
+                        <span class="text-gray-600" data-en="Already have an account?" data-ar="لديك حساب بالفعل؟">Already have an account?</span>
+                        <button type="button" onclick="showPage('login')" class="font-medium text-blue-600 hover:text-blue-500 ml-1"
+                                data-en="Sign in" data-ar="تسجيل الدخول">Sign in</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">ClassifiedHub</h3>
+                    <p class="text-gray-400" data-en="Your trusted marketplace across the Middle East." data-ar="السوق الموثوق عبر الشرق الأوسط.">Your trusted marketplace across the Middle East.</p>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4" data-en="Quick Links" data-ar="روابط سريعة">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white" data-en="About Us" data-ar="من نحن">About Us</a></li>
+                        <li><a href="#" class="hover:text-white" data-en="Contact" data-ar="اتصل بنا">Contact</a></li>
+                        <li><a href="#" class="hover:text-white" data-en="Help Center" data-ar="مركز المساعدة">Help Center</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4" data-en="Categories" data-ar="الفئات">Categories</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white" data-en="Real Estate" data-ar="العقارات">Real Estate</a></li>
+                        <li><a href="#" class="hover:text-white" data-en="Vehicles" data-ar="المركبات">Vehicles</a></li>
+                        <li><a href="#" class="hover:text-white" data-en="Electronics" data-ar="الإلكترونيات">Electronics</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="font-semibold mb-4" data-en="Support" data-ar="الدعم">Support</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" class="hover:text-white" data-en="Privacy Policy" data-ar="سياسة الخصوصية">Privacy Policy</a></li>
+                        <li><a href="#" class="hover:text-white" data-en="Terms of Service" data-ar="شروط الخدمة">Terms of Service</a></li>
+                        <li><a href="#" class="hover:text-white" data-en="FAQ" data-ar="الأسئلة الشائعة">FAQ</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 ClassifiedHub. <span data-en="All rights reserved." data-ar="جميع الحقوق محفوظة.">All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="app.js"></script>
+</body>
+</html>
